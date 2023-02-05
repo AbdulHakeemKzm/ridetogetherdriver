@@ -8,6 +8,7 @@ void main() async
 
   await Firebase.initializeApp();
 
+
   runApp(
     MyApp(
       child: MaterialApp(
@@ -22,20 +23,6 @@ void main() async
   );
 }
 
-
-class MyApp extends StatefulWidget {
-
-  final Widget? child;
-  MyApp({this.child});
-
-  static void restartApp(BuildContext context)
-  {
-    context.findAncestorStateOfType<_MyAppState>()!.restartApp();
-  }
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
 
 class _MyAppState extends State<MyApp> {
 
@@ -53,4 +40,18 @@ class _MyAppState extends State<MyApp> {
       child: widget.child!,
     );
   }
+}
+
+class MyApp extends StatefulWidget {
+
+  final Widget? child;
+  MyApp({this.child});
+
+  static void restartApp(BuildContext context)
+  {
+    context.findAncestorStateOfType<_MyAppState>()!.restartApp();
+  }
+
+  @override
+  State<MyApp> createState() => _MyAppState();
 }

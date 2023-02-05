@@ -14,29 +14,25 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> {
-
-  startTimer()
-  {
-    Timer(const Duration(seconds:3), () async{
-
-      if(await fAuth.currentUser != null)
-        {
-          currentFirebaseUser = fAuth.currentUser;
-          Navigator.push(context, MaterialPageRoute(builder: (c)=> MainScreen()));
-        }
-      else
-        {
-          Navigator.push(context, MaterialPageRoute(builder: (c)=> SignUp()));
-        }
-
+  startTimer() {
+    Timer(const Duration(seconds: 3), () async {
+      if (await fAuth.currentUser != null) {
+        currentFirebaseUser = fAuth.currentUser;
+        Navigator.push(
+            context, MaterialPageRoute(builder: (c) => MainScreen()));
+      } else {
+        Navigator.push(context, MaterialPageRoute(builder: (c) => SignUp()));
+      }
     });
   }
+
   @override
   void initState() {
     super.initState();
 
     startTimer();
   }
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -49,19 +45,17 @@ class _SplashState extends State<Splash> {
               //SizedBox(height: 200,),
               Icon(
                 Icons.drive_eta_rounded,
-                color: Colors.yellow,
+                color: Color.fromARGB(255, 65, 178, 254),
                 size: 80,
               ),
-              Text(style: TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold),
-                  'Ride Together Driver'
-              ),
+              Text(
+                  style: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  'Ride Together Driver'),
               //SizedBox(height: 300,),
-              Text(style: TextStyle(
-               ),
-                " "
-              ),
+              Text(style: TextStyle(), " "),
             ],
           ),
         ),
