@@ -1,7 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+import '../Assistants/assistant_methods.dart';
+import '../Global/global.dart';
 
 
 class HomeTab extends StatefulWidget {
@@ -22,6 +26,14 @@ class _HomeTabState extends State<HomeTab> {
     target: LatLng(37.42796133580664, -122.085749655962),
     zoom: 14.4746,
   );
+
+  Position? userCurrentPosition;
+  var geoLocator = Geolocator();
+  LocationPermission? _locationPermission;
+
+  String statusText ="Now Offline";
+  Color statusColor = Colors.grey;
+  bool isDriverActive = false;
 
   blackThemeGoogleMap()
   {
@@ -190,6 +202,41 @@ class _HomeTabState extends State<HomeTab> {
                 ''');
   }
 
+  checkIfLocationPermissionAllowed()async
+  {
+    _locationPermission = await Geolocator.requestPermission();
+
+    if(_locationPermission == LocationPermission.denied)
+    {
+      _locationPermission = await Geolocator.requestPermission();
+    }
+  }
+  locateDriverPosition() async
+  {
+    Position cPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    userCurrentPosition = cPosition;
+
+    LatLng? latLngPosition = LatLng(userCurrentPosition!.latitude, userCurrentPosition!.longitude);
+    CameraPosition cameraPosition = CameraPosition(target: latLngPosition, zoom: 14);
+
+    newGoogleMapController!.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+
+    String humanReadableAddress = await AssistantMethods.searchAddressForGeographicCoordinates(userCurrentPosition!, context);
+    print("this is your address = " + humanReadableAddress);
+
+    // userName = userModelCurrentInfo!.name!;
+    // userEmail = userModelCurrentInfo!.email!;
+
+  }
+  @override
+  void initState(){
+    super.initState();
+
+    checkIfLocationPermissionAllowed();
+  }
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -204,10 +251,21 @@ class _HomeTabState extends State<HomeTab> {
                 _controller.complete(controller);
                 newGoogleMapController = controller;
                 //blackThemeGoogleMap();
+                locateDriverPosition();
 
-              }
+              },
 
           ),
+
+          //UI Online/Offline Driver
+          statusText != "Now Online"
+              ? Container(
+            height: MediaQuery.of(context).size.height,
+            width: double.infinity,
+            color: Colors.black54,
+          )
+              : Container(),
+
         ],
       ),
     );
