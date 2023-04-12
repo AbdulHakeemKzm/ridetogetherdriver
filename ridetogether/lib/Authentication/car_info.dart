@@ -20,7 +20,7 @@ class _CarInfoState extends State<CarInfo> {
   TextEditingController carNumberTextEditingController = TextEditingController();
   TextEditingController carColorTextEditingController = TextEditingController();
 
-  List<String> carTypesList = ["Auto", "car","bike"];
+  List<String> carTypesList = ["auto", "car","bike"];
   String? selectedCarType;
 
 
