@@ -4,6 +4,9 @@
 .dart_tool/
 .packages
 build/
+map_key.dart
+google-services.json
+AndroidManifest.xml
 # If you're building an application, you may want to check-in your pubspec.lock
 pubspec.lock
 
